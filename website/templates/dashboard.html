@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block mainbody %}
+<h1>{{current_user}} : {{current_user.user_type}}</h1>
+{% endblock mainbody %}
+{% block navbaritem %}
+    {% if current_user.user_type == 'regular' %}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{url_for('views.vaccineregistration')}}">
+            <i class="bi bi-question-circle"></i>
+            <span> Vaccine Registration
+            </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-faq.html">
+            <i class="bi bi-question-circle"></i>
+            <span> Download Vaccine Card
+            </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-faq.html">
+            <i class="bi bi-question-circle"></i>
+            <span> Make Payment
+            </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if current_user.user_type == 'hospital' %}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-faq.html">
+            <i class="bi bi-question-circle"></i>
+            <span> Check Vaccine Stock
+            </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-faq.html">
+            <i class="bi bi-question-circle"></i>
+            <span> Update Vaccine Date
+            </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-faq.html">
+            <i class="bi bi-question-circle"></i>
+            <span> Update Vaccine Status
+            </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-faq.html">
+            <i class="bi bi-question-circle"></i>
+            <span> Request for Approval
+            </span>
+            </a>
+        </li>
+    {% endif %}
+    {% if current_user.user_type == 'admin' %}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-faq.html">
+            <i class="bi bi-question-circle"></i>
+            <span> National Vaccince Stock
+            </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-faq.html">
+            <i class="bi bi-question-circle"></i>
+            <span> Hospital Requests
+            </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-faq.html">
+            <i class="bi bi-question-circle"></i>
+            <span> Allocate Vaccines
+            </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-faq.html">
+            <i class="bi bi-question-circle"></i>
+            <span> Permit Hospitals
+            </span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="pages-faq.html">
+            <i class="bi bi-question-circle"></i>
+            <span> Request for Approval
+            </span>
+            </a>
+        </li>
+    {% endif %}    
+
+
+{% endblock navbaritem %}

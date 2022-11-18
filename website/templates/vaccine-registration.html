@@ -1,48 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Signup</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-
-</head>
-
-<body>
-
-  <main>
+{% extends 'base.html' %}
+{% block mainbody %}
+<main>
     <div class="container">
-      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center">
+      <section class="section register min-vh-60 d-flex flex-column align-items-center justify-content-center">
         <div class="container">
           <div class="row justify-content-center">
             <div class="">
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/logo.png" alt="">
-                  <span class="d-none d-lg-block">Register</span>
+                  <span class="d-none d-lg-block">Vaccine Registration</span>
                 </a>
               </div><!-- End Logo -->
 
@@ -50,20 +17,20 @@
                 <section class="section">
                   <div class="row">
             
-                    <div class="mx-auto" style="width: 100%;">
+                    <div class="mx-auto" style="width: 120%;">
             
-                      <div class="card" style="margin-bottom: 0px">
+                      <div class="card" style="margin-bottom: 0px;">
                         <div class="card-body">
                           <h5 class="card-title">
-                            Fill up the information to get started
+                            Fill Up Vaccine Information
                           </h5>
                           <p>
                             <code style="font-size: 18px;">
                               <strong>
-                               Only for General Public.
+                               Fill up correct information, You cannot change once filled-up.
+                               
                               </strong>
                             </code>
-                              Hospitals and Medical Practitioners will get their credentials from the respective authorities.
                           </p>
                           <br>
                           <!-- Custom Styled Validation -->
@@ -81,7 +48,9 @@
                                 name="first_name" 
                                 id="first_name" 
                                 class="form-control" 
-                                value="" required="">
+                                value="{{current_user.first_name}}" 
+                                readonly
+                                required="">
                               <div class="valid-feedback">
                                 Looks good!
                               </div>
@@ -91,7 +60,13 @@
                                 name="last_name" 
                                 id="last_name" 
                                 class="form-label">Last name</label>
-                              <input type="text" class="form-control" id="last_name" name="last_name" value="" required="">
+                              <input type="text" 
+                              class="form-control" 
+                              id="last_name" 
+                              name="last_name" 
+                              value="{{current_user.last_name}}" 
+                              readonly
+                              required="">
                               <div class="valid-feedback">
                                 Looks good!
                               </div>
@@ -103,7 +78,10 @@
                               <div class="input-group has-validation">
                                 <span class="input-group-text" id="inputGroupPrepend">NID:</span>
                                 <input type="text" class="form-control" name="nid_number" 
-                                id="nid_number" aria-describedby="inputGroupPrepend" required="">
+                                id="nid_number" aria-describedby="inputGroupPrepend" 
+                                value="{{current_user.nid}}" 
+                                readonly
+                                required="">
                                 <div class="invalid-feedback">
                                   Enter your national id number.
                                 </div>
@@ -113,32 +91,42 @@
 
                           <div class="row">
                             <div class="col-md-4">
-                              <label for="email" 
-                              name="email" 
-                              id="email"
-                              class="form-label">Email</label>
-                              <input type="text" class="form-control" name="email"  id="email" required="">
+                              <label for="vaccine_for" 
+                              name="vaccine_for" 
+                              id="vaccine_for"
+                              class="form-label">Vaccine For</label>
+                              <select class="form-select" name="vaccine_for" id="vaccine_for">
+                                <option selected>Select</option>
+                                <option value="Covid-19">Covid-19</option>
+                                <option value="2">TB</option>
+                                <option value="3">Flu</option>
+                              </select>
                               <div class="invalid-feedback">
-                                Please provide a Email.
+                                Please provide a Valid Name
                               </div>
                             </div>
                             <div class="col-md-4">
-                              <label for="password" name="password" 
-                              id="password" class="form-label">Password</label>
-                              <input type="text" class="form-control" id="password" name="password" 
-                              id="password" required="">
+                              <label for="hospital_id" name="hospital_id" 
+                              id="hospital_id" class="form-label">Hospital</label>
+                              <select class="form-select" id="hospital_id" name="hospital_id">
+                                <option selected>Select</option>
+                                {% for hospital in context.hospitals %}                                
+                                    <option value="{{hospital.hospital_id}}">{{hospital.name}}</option>
+                                {% endfor %}
+                              </select>
                               <div class="invalid-feedback">
                                 Password for your account.
                               </div>
                             </div>
                               <div class="col-md-4">
-                                <label for="mobile" name="mobile" 
-                                id="mobile" class="form-label">Mobile</label>
+                                <label for="payment_category" name="payment_category" 
+                                id="payment_category" class="form-label">Payment/Category</label>
                             
-                                <input type="text" class="form-control" name="mobile" 
-                                id="mobile" id="mobile" required="">
+                                <input type="text" class="form-control" name="payment_category" 
+                                id="payment_category" id="payment_category" required="" value="Govt." 
+                                readonly>
                                 <div class="invalid-feedback">
-                                  Enter your mobile number.
+                                  Enter your payment_category number.
                                 </div>
                               </div>
                             </div>
@@ -157,42 +145,23 @@
                               <button class="btn btn-primary" type="submit">Submit form</button>  
                             </div>
                           </form><!-- End Custom Styled Validation -->
-                          <p style="padding-top: 10px;">
+                          <p style="padding-top: 20px;">
                             Registered already?
                             <strong>
-                              <a href="{{url_for('auth.login')}}"><u>Login Now!</u></a>
+                              <a href="{{url_for('auth.login')}}"><u>Download Vaccine Card</u></a>
                             </strong>
                         </div>
                       </div>
             
                     </div>
                   </div>
-                </section>
-              </div>
+                </div>
             </div>
-          </div>
         </div>
+    </div>
 
-      </section>
+    </section>
 
     </div>
   </main><!-- End #main -->
-
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.min.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
-</body>
-
-</html>
+{% endblock mainbody %}

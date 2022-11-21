@@ -5,8 +5,23 @@ from flask import url_for
 from flask_login import login_user, login_required, logout_user, current_user
 import random 
 from . import db
-from .models import RegularUser, Hospital, Vaccine, User_Vaccine_Info, Vaccine_Request, NationalSystem
+from functools import wraps
+from .models import RegularUser, Hospital, Vaccine, User_Vaccine_Info, Vaccine_Request, NationalSystem,Hospital_Vaccine_Stock
 views = Blueprint('views', __name__)
+
+
+
+def hospital_required(func):
+    def wrapper(*args, **kwargs):
+        if current_user.is_authenticated:
+            if current_user.email.split('@')[1] == 'hospital.com':
+                return func(*args, **kwargs)
+            else:
+                return redirect(url_for('views.dashboard'))
+        else:
+            return redirect(url_for('auth.login'))
+    return wrapper
+
 
 @views.route('/')
 # @login_required
@@ -69,4 +84,6 @@ def vaccineregistration():
     
     context = {'hospitals': hospitals}
     print(context)
-    return render_template("vaccine-registration.html", context=context)
+    return render_template("vaccine-registration.html", context=context) 
+
+

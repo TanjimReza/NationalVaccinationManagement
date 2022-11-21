@@ -28,15 +28,21 @@ class Hospital(UserMixin, db.Model):
     hospital_id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
-    v_stock_count = db.Column(db.Integer, default=0)
-    vaccine_name = db.Column(db.String(100), default='Covid-19')
     address = db.Column(db.String(100), default='Dhaka')
     user_type = db.Column(db.String(100), default='hospital')
 
     def get_id(self):
         return (self.email)
 
+class Hospital_Vaccine_Stock(db.Model):
+    vaccine_id = db.Column(db.Integer, primary_key=True)
+    hospital_id = db.Column(db.Integer, db.ForeignKey('hospital.hospital_id'))
+    vaccine_name = db.Column(db.String(100))
+    vaccine_quantity = db.Column(db.Integer)
+    
+
 class Vaccine(db.Model):
+    vaccine_serial = db.Column(db.Integer, primary_key=True)
     vaccine_name = db.Column(db.String(100), primary_key=True)
     vaccine_amount = db.Column(db.Integer, default=0)
 

@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
-{% block mainbody %}
-<h1>{{current_user}} : {{current_user.user_type}}</h1>
-{% endblock mainbody %}
+
+
 {% block navbaritem %}
     {% if current_user.user_type == 'regular' %}
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{url_for('views.vaccineregistration')}}">
+            <a class="nav-link collapsed" href="{{url_for('admin.vaccineregistration')}}">
             <i class="bi bi-question-circle"></i>
             <span> Vaccine Registration
             </span>
@@ -58,7 +57,7 @@
     {% endif %}
     {% if current_user.user_type == 'admin' %}
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
+            <a class="nav-link collapsed" href="{{url_for('admin.national_vaccine_stock')}}">
             <i class="bi bi-question-circle"></i>
             <span> National Vaccince Stock
             </span>
@@ -93,6 +92,24 @@
             </a>
         </li>
     {% endif %}    
-
-
 {% endblock navbaritem %}
+
+
+
+{% block mainbody %}
+    
+    <h1>{{current_user}} : {{current_user.user_type}}</h1>
+    {% block adminbody %}
+    {% endblock adminbody %}
+
+    {% block hospitalbody %}
+    {% endblock hospitalbody %}
+
+    {% block regularbody %}
+    {% endblock regularbody %}
+    
+{% endblock mainbody %}
+
+
+
+

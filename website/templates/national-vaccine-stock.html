@@ -1,0 +1,129 @@
+{% extends 'dashboard.html' %}
+{% block adminbody %}
+<section class="section">
+    <div class="card">
+      <div class="card-body">
+        <h1 align="right">
+            <button type="button" class="btn btn-info btn-lg">
+                <a href="{{url_for('admin.add_new_vaccine')}}"><strong> Add New Vaccine</strong></a>
+            </button>
+        </h1>
+  
+        <h5 class="card-title" align="center">Available Vaccines</h5> 
+          <table class="table" id="example" class="display" style="width:100%">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Vials</th>
+                <th scope="col">Manage</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            {% for vaccine in vaccines %}
+              <tr>
+                <th scope="row">{{vaccine.vaccine_serial}}</th>
+                <td>{{vaccine.vaccine_name}}</td>
+                <td>{{vaccine.vaccine_amount}}</td>
+                <td>
+                    <button type="button" class="btn btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add</button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Add Vaccine Stock</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <div class="modal-body">
+                                <form method="POST">
+                                    <div class="form-group">
+                                        <label for="add_vaccine_name" class="col-form-label" name="add_vaccine_name">Vaccine name</label>
+                                        <input type="text" class="form-control" id="add_vaccine_name" name="add_vaccine_name" value="{{vaccine.vaccine_name}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="add_vaccine_amount" name="add_vaccine_amount" class="col-form-label">Amount:</label>
+                                        <input type="number" id="add_vaccine_amount" name="add_vaccine_amount" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-outline-success" type="submit" class="btn btn-primary">Submit Form</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#exampleModal2" data-whatever="@mdo" >Remove</button>
+                    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Remove Vaccine Stock </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <div class="modal-body">
+                                <form method="POST">
+                                    <div class="form-group">
+                                        <label for="add_vaccine_name" class="col-form-label" name="add_vaccine_name">Vaccine name</label>
+                                        <input type="text" class="form-control" id="add_vaccine_name" name="add_vaccine_name" value="{{vaccine.vaccine_name}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="remove_vaccine_amount" name="remove_vaccine_amount" class="col-form-label">Amount:</label>
+                                        <input type="number" id="remove_vaccine_amount" name="remove_vaccine_amount" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-outline-success" type="submit" class="btn btn-primary">Submit Form</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+              </tr>
+            {% endfor %}  
+            
+            </tbody>
+          </table>
+          
+    </div>
+  </div>
+</div>
+</section>
+
+<style>
+.card {
+align : center;
+margin : 0 auto;
+width : 100%;
+max-width : 1000px;
+padding : 20px;
+border : 1px solid #eee;
+border-radius : 5px;
+box-shadow : 0 2px 3px #ccc;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  $('#example').DataTable({
+      scrollY: '50vh',
+      scrollCollapse: true,
+      paging: false,
+      columnDefs: [
+          { width: 50, targets: 0 },
+          { width: 60, targets: 1 },
+      ],
+      fixedColumns: true
+  });
+});
+
+</script>
+{% endblock adminbody %}

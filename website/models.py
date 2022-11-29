@@ -55,11 +55,11 @@ class User_Vaccine_Info(db.Model):
     
 class Vaccine_Request(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    req_hid = db.Column(db.Integer, db.ForeignKey('hospital.hospital_id'))
-    v_name = db.Column(db.String(100), db.ForeignKey('vaccine.vaccine_name'))
+    req_hid = db.Column(db.Integer)
+    v_name = db.Column(db.String(100))
     req_amount = db.Column(db.Integer)
     req_date = db.Column(db.DateTime(timezone=True), default=func.now())
-    approved_by = db.Column(db.Integer, db.ForeignKey('national_system.admin_id'))
+    approved_by = db.Column(db.Integer)
     approved_amount = db.Column(db.Integer) 
     status = db.Column(db.String(100), default='pending')
     approved_date = db.Column(db.DateTime(timezone=True), default=func.now())

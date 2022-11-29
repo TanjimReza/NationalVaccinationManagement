@@ -19,8 +19,9 @@ def create_app():
     # app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql:///root:"no password"@localhost:3306/dsefifa'
 #     app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://tanjimflask:tanjimflask@localhost/dsefifa"
     # app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://tanjimre_primeparkuser:cff70978c4053@server-arizona-vps.quattic.com:3306/tanjimre_dsefifa"
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://tanjimflask:tanjimflask@localhost/nvms"
+    # app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://tanjimflask:tanjimflask@localhost/nvms"
 
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://fahadalm_test:Test007Test43@103.112.63.34/fahadalm_test"
 
     db.init_app(app)
     migrate = Migrate(app, db)

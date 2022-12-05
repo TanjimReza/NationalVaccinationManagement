@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    
+</head>
+<body>
+    <!-- Note: class .show is used for demo purposes. Remove it when using it in the real project. -->
+<div class="alert alert-primary mb-0 alert-dismissible alert-absolute fade show " id="alertExample" role="alert" data-mdb-color="secondary">
+    <i class="fas fa-check me-2"></i>
+    Hello! I am a simple alert
+  
+    <button type="button" class="btn-close ms-2" data-mdb-dismiss="alert" aria-label="Close"></button>
+  </div>
+</body>
+<script>
+    mdb.Alert.getInstance(document.getElementById("alertExample")).update({
+        position: "top-right",
+        delay: 2000,
+        autohide: false,
+        width: "600px",
+        offset: 20,
+        stacking: false,
+        appendToBody: false,
+      });
+</script>
+</html>

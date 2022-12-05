@@ -4,14 +4,14 @@
 {% block navbaritem %}
     {% if current_user.user_type == 'regular' %}
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{url_for('admin.vaccineregistration')}}">
+            <a class="nav-link collapsed" href="{{url_for('views.vaccineregistration')}}">
             <i class="bi bi-question-circle"></i>
             <span> Vaccine Registration
             </span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
+            <a class="nav-link collapsed" href="{{url_for('views.download_vaccine_card')}}">
             <i class="bi bi-question-circle"></i>
             <span> Download Vaccine Card
             </span>
@@ -41,14 +41,14 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
+            <a class="nav-link collapsed" href="{{url_for('hospitals.update_users')}}">
             <i class="bi bi-question-circle"></i>
             <span> Update Vaccine Status
             </span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
+            <a class="nav-link collapsed" href="{{url_for('hospitals.request_approval')}}">
             <i class="bi bi-question-circle"></i>
             <span> Request for Approval
             </span>
@@ -78,7 +78,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
+            <a class="nav-link collapsed" href="{{url_for('admin.permit_hospitals')}}">
             <i class="bi bi-question-circle"></i>
             <span> Permit Hospitals
             </span>
@@ -109,7 +109,5 @@
     {% endblock regularbody %}
     
 {% endblock mainbody %}
-
-
 
 

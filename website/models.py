@@ -2,6 +2,8 @@ from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 
+
+
 class RegularUser(UserMixin, db.Model):
     nid = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
@@ -11,6 +13,9 @@ class RegularUser(UserMixin, db.Model):
     mobile = db.Column(db.String(100))
     user_type = db.Column(db.String(100), default='regular')
     balance = db.Column(db.Integer)
+    
+    
+    
     def get_id(self):
         return (self.email)
 
@@ -30,36 +35,43 @@ class Hospital(UserMixin, db.Model):
     password = db.Column(db.String(100))
     address = db.Column(db.String(100), default='Dhaka')
     user_type = db.Column(db.String(100), default='hospital')
+    status = db.Column(db.String(100), default='NotVerified')
+
 
     def get_id(self):
         return (self.email)
 
-class Hospital_Vaccine_Stock(db.Model):
+class HospitalVaccineStock(db.Model):
     vaccine_id = db.Column(db.Integer, primary_key=True)
     hospital_id = db.Column(db.Integer, db.ForeignKey('hospital.hospital_id'))
     vaccine_name = db.Column(db.String(100))
     vaccine_quantity = db.Column(db.Integer)
-    
+
+
 
 class Vaccine(db.Model):
-    vaccine_serial = db.Column(db.Integer, primary_key=True)
-    vaccine_name = db.Column(db.String(100), primary_key=True)
+    vaccine_serial = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    vaccine_name = db.Column(db.String(100), default='Covid-19')
     vaccine_amount = db.Column(db.Integer, default=0)
 
-class User_Vaccine_Info(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    v_user_id = db.Column(db.Integer, db.ForeignKey('regular_user.nid'))
-    v_hospital_id = db.Column(db.Integer, db.ForeignKey('hospital.hospital_id'))
-    vaccine_name = db.Column(db.String(100), db.ForeignKey('vaccine.vaccine_name'))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
     
-class Vaccine_Request(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    req_hid = db.Column(db.Integer, db.ForeignKey('hospital.hospital_id'))
-    v_name = db.Column(db.String(100), db.ForeignKey('vaccine.vaccine_name'))
-    req_amount = db.Column(db.Integer)
-    req_date = db.Column(db.DateTime(timezone=True), default=func.now())
-    approved_by = db.Column(db.Integer, db.ForeignKey('national_system.admin_id'))
-    approved_amount = db.Column(db.Integer) 
+class UserVaccineInfo(db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey('regular_user.nid'))
+    user_name = db.Column(db.String(100))
+    vaccine_id = db.Column(db.Integer, db.ForeignKey('vaccine.vaccine_serial'))
+    hospital_id = db.Column(db.Integer, db.ForeignKey('hospital.hospital_id'))
+    vaccine_name = db.Column(db.String(100))
+    vaccine_status = db.Column(db.String(100), default='NotTaken')
+    vaccine_serial = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    vaccine_date = db.Column(db.DateTime(timezone=True), default=func.now())
+ 
+
+class VaccineRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    vaccine_name = db.Column(db.String(100))
+    date = db.Column(db.DateTime(timezone=True), default=func.now())
     status = db.Column(db.String(100), default='pending')
-    approved_date = db.Column(db.DateTime(timezone=True), default=func.now())
+
+
+    
+

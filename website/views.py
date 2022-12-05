@@ -6,7 +6,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 import random 
 from . import db
 from functools import wraps
-from .models import RegularUser, Hospital, Vaccine, User_Vaccine_Info, Vaccine_Request, NationalSystem,Hospital_Vaccine_Stock
+from .models import RegularUser, Hospital, Vaccine, UserVaccineInfo, VaccineRequest, NationalSystem,HospitalVaccineStock
 views = Blueprint('views', __name__)
 
 
@@ -30,6 +30,7 @@ def index():
     # return redirect(url_for('views.submit'))
 
 @views.route('/dashboard')
+@login_required
 def dashboard():
     print(f"{current_user=} is logged in")
     return render_template('dashboard.html')
@@ -64,26 +65,52 @@ def winner():
 @views.route('/vaccineregistration', methods=['POST', 'GET'])
 def vaccineregistration():
     if request.method == 'POST':
+        print("POST DATA:")
         data = request.form
         print(data)
-       
-    if request.method == 'POST':
-        print(request.form.get('nid_number'))
-        new_user_vaccine_info = User_Vaccine_Info(
-            v_user_id = RegularUser.query.filter_by(nid=request.form.get('nid_number')).first().nid,
-            v_hospital_id = Hospital.query.filter_by(hospital_id=request.form.get('hospital_id')).first().hospital_id,
-            vaccine_name = request.form.get('vaccine_for'),
-        )
-        db.session.add(new_user_vaccine_info)
+        name = data['first_name'] + " " + data['last_name']
+        nid = data['nid_number']
+        nid = RegularUser.query.filter_by(nid=nid).first().nid
+        vaccine_name = data['vaccine_for']
+        hospital_id = data['hospital_id']
+        new_vaccine = UserVaccineInfo(
+                                    user_id  = nid, 
+                                    vaccine_id = Vaccine.query.filter_by(vaccine_name=vaccine_name).first().vaccine_serial,
+                                    vaccine_name = vaccine_name,
+                                    hospital_id = hospital_id,
+                                    user_name = name
+                                    )
+        
+        print(new_vaccine)
+        db.session.add(new_vaccine)
         db.session.commit()
-        print(f"\n\n VACCINE ADDED \n\n")
-        return redirect(url_for('views.dashboard'))
+        print("VACCINE REGISTRATION SUCCESSFUL")
+        return redirect(url_for('views.vaccineregistration'))
     
     hospitals = Hospital.query.all()
-    print(hospitals)
-    
-    context = {'hospitals': hospitals}
-    print(context)
+    vaccines = Vaccine.query.all()
+    context = {'hospitals': hospitals,
+                'vaccines': vaccines}
+            
     return render_template("vaccine-registration.html", context=context) 
 
 
+@views.route('/download-vaccine-card', methods=['POST', 'GET'])
+def download_vaccine_card():
+    
+    nid = current_user.nid
+    user_vaccine_info = UserVaccineInfo.query.filter_by(user_id=nid).first()
+    name = user_vaccine_info.user_name
+    vaccine_name = user_vaccine_info.vaccine_name
+    hospital_id = user_vaccine_info.hospital_id
+    hospital_name = Hospital.query.filter_by(hospital_id=hospital_id).first().name
+    status = user_vaccine_info.vaccine_status
+    date = user_vaccine_info.vaccine_date
+    context = {'name': name,
+                'vaccine_name': vaccine_name,
+                'hospital_name': hospital_name,
+                'status': status, 
+                'nid': nid, 
+                'date': date}
+
+    return render_template("download-vaccine-card.html", context=context)

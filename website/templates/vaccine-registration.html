@@ -96,10 +96,9 @@
                               id="vaccine_for"
                               class="form-label">Vaccine For</label>
                               <select class="form-select" name="vaccine_for" id="vaccine_for">
-                                <option selected>Select</option>
-                                <option value="Covid-19">Covid-19</option>
-                                <option value="2">TB</option>
-                                <option value="3">Flu</option>
+                                {% for vaccine in context.vaccines %}
+                                  <option selected>{{vaccine.vaccine_name}}</option>
+                                {% endfor %}
                               </select>
                               <div class="invalid-feedback">
                                 Please provide a Valid Name

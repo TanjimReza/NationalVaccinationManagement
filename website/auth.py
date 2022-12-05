@@ -1,5 +1,5 @@
 from flask import Blueprint,render_template,redirect,url_for,request, flash
-from .models import RegularUser, Hospital, Vaccine, User_Vaccine_Info, Vaccine_Request, NationalSystem
+from .models import RegularUser, Hospital, Vaccine, UserVaccineInfo, VaccineRequest, NationalSystem
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -38,6 +38,7 @@ def login():
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
+    print("SIGNUP")
     if request.method == 'POST':
         print(request.form)
         email = request.form.get('email')
@@ -49,6 +50,7 @@ def signup():
                                    Hospital.query.filter_by(email=email).first()
         
         if any([regular, admin, hospital]):
+            print("Email already exists")
             if regular:
                 flash('Regular user email already exists.', category='error')
             if admin:
@@ -64,6 +66,7 @@ def signup():
             pass
         else: 
             if last_name == "admin":
+                print("Creating ADMIN")
                 new_user = NationalSystem(
                     admin_id = request.form.get('nid_number'),
                     name = request.form.get('first_name'),
@@ -78,6 +81,7 @@ def signup():
                 print(f"\n\n ADMIN ADDED \n\n")
                 return redirect(url_for('views.index'))
             if last_name == "hospital":
+                print("Creating HOSPITAL")
                 new_user = Hospital(
                     hospital_id = request.form.get('nid_number'),
                     name = request.form.get('first_name'),
@@ -91,6 +95,7 @@ def signup():
                 print(f"\n\n HOSPITAL ADDED \n\n")
                 return redirect(url_for('views.index'))
             else:
+                print("Creating REGULAR USER")
                 new_user = RegularUser(
                     nid = request.form.get('nid_number'),
                     email=email, 
@@ -106,7 +111,7 @@ def signup():
                 flash('Logged in successfully!', category='success')
                 login_user(new_user, remember=True)
                 print(f"\n\n REGULAR USER ADDED \n\n")
-                return redirect(url_for('views.home'))
+                return redirect(url_for('views.dashboard'))
 
         # print(data)
     context = { 'title': 'TANJIM' }

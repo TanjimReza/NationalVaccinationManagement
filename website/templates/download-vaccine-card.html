@@ -1,0 +1,145 @@
+{% extends 'dashboard.html' %}
+{% block mainbody %}
+<section class="section">
+    <div class="card">
+      <div class="card-body">
+        <div class="cs-container">
+            <div class="cs-invoice cs-style1"  id="pdfthis">
+              <div class="cs-invoice_in" id="download_section">
+                <div class="cs-invoice_head cs-type1 cs-mb25">
+                  <div class="cs-invoice_left" style="width: 150ch;">
+                    <p class="cs-invoice_number cs-primary_color cs-mb5 cs-f16"><b class="cs-primary_color">Registration#: 2394 </b></p>
+                    <p class="cs-invoice_date cs-primary_color cs-m0">
+                        <b class="cs-primary_color">Date: <b id="today">02.09.2022</b>
+                        </b>
+                    </p>
+                  </div>
+                </div>
+                <div class="cs-invoice_head cs-mb10">
+                  <div class="cs-invoice_left">
+                    <div class="cs-box cs-style1 cs-type1 cs-text_center cs-mb10">
+                      <p class="cs-mb5">Status</p>
+                      <p class="cs-accent_color cs-f24 cs-bold cs-mb0">{{context.status}}</p>
+                      </textarea>
+                    </div>
+                  </div>
+                  <div class="cs-invoice_right cs-text_right">
+                    <b class="cs-primary_color">National Disease Control</b>
+                    <p>
+                      Dhaka, Bangladesh <br>
+                      <a href="mailto:system@tanjimreza.com">system@tanjimreza.com</a> 
+                    </p>
+                  </div>
+                </div>
+                <ul class="cs-grid_row cs-col_3 cs-mb10">
+                  <li class="cs-mb20">
+                    <b class="cs-primary_color">Take Vaccine, Save Life</b>
+                    <p class="cs-mb0">
+                     Vaccine is the best way to protect yourself from diseases.
+                    </p>
+                  </li>
+                  <li class="cs-mb20">
+                    <b class="cs-primary_color">Vaccinated at:</b>
+                    <p class="cs-mb0">
+                        <b id="vaccinated_at">{{context.hospital_name}}</b>
+                    </p>
+                  </li>
+                  <li class="cs-mb20">
+                    <div class="cs-box cs-style1 cs-type1 cs-text_center cs-max_w_150 cs-left_auto">
+                      <p class="cs-mb5">Date</p>
+                      <p class="cs-accent_color cs-f24 cs-bold cs-mb0">{{context.date}}</p>
+                    </div>
+                  </li>
+                </ul>
+                <div class="cs-table cs-style1 cs-type2 cs-mb30">
+                  <div class="cs-round_border">
+                    <p class="cs-primary_color cs-semi_bold cs-f18 cs-mb0 cs-table_title">Information</p>
+                    <div class="cs-table_responsive">
+                      <table class="cs-border_less">
+                        <tbody>
+                          <tr class="cs-table_baseline">
+                            <td class="cs-width_8">
+                              <div class="cs-table cs-style2">
+                                <table>
+                                  <tbody>
+                                    <tr>
+                                      <td><b class="cs-primary_color cs-semi_bold">Name:</b> {{context.name}} </td>
+                                      <td><b class="cs-primary_color cs-semi_bold">NID:</b> {{context.nid}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td><b class="cs-primary_color cs-semi_bold">Vaccine Name:</b> {{context.vaccine_name}}</td>
+                                      <td><b class="cs-primary_color cs-semi_bold">Signature:</b> NVMS</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </td>
+
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cs-note">
+                  <div class="cs-note_left">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path d="M416 221.25V416a48 48 0 01-48 48H144a48 48 0 01-48-48V96a48 48 0 0148-48h98.75a32 32 0 0122.62 9.37l141.26 141.26a32 32 0 019.37 22.62z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><path d="M256 56v120a32 32 0 0032 32h120M176 288h160M176 368h160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                  </div>
+                  <div class="cs-note_right">
+                    <p class="cs-mb0"><b class="cs-primary_color cs-bold">Note:</b></p>
+                    <p class="cs-m0">If you have any queries mail at <b>system@tanjimreza.com</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </div> 
+                </div><!-- .cs-note -->
+              </div>
+              <div class="cs-invoice_btns cs-hide_print">
+                <button id="download_btn" class="cs-invoice_btn cs-color2" onclick="generate_pdf()">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Download</title><path d="M336 176h40a40 40 0 0140 40v208a40 40 0 01-40 40H136a40 40 0 01-40-40V216a40 40 0 0140-40h40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 272l80 80 80-80M256 48v288"/></svg>
+                  <span>Download</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+    </div>
+  </div>
+</div>
+</section>
+
+<style>
+.card {
+    align : center;
+    margin : 0 auto;
+    width : 100%;
+    max-width : 1000px;
+    padding : 20px;
+    border : 1px solid #eee;
+    border-radius : 5px;
+    box-shadow : 0 2px 3px #ccc;
+    }
+</style>
+
+<script>
+$(document).ready(function () {
+  $('#example').DataTable({
+      scrollY: '50vh',
+      scrollCollapse: true,
+  });
+});
+</script>
+
+<script>
+    function generate_pdf() {
+        var element = document.getElementById('pdfthis');
+        html2pdf().from(element).save();
+    }
+    
+</script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://tanjimreza.me/cdn/assets/css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock mainbody %}

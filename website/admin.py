@@ -6,7 +6,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 import random 
 from . import db
 from functools import wraps
-from .models import RegularUser, Hospital, Vaccine, User_Vaccine_Info, Vaccine_Request, NationalSystem,Hospital_Vaccine_Stock
+from .models import RegularUser, Hospital, Vaccine, UserVaccineInfo, VaccineRequest, NationalSystem,HospitalVaccineStock
 
 admin = Blueprint('admin', __name__)
 
@@ -24,9 +24,9 @@ def require_admin(f):
             return redirect("/")
     return decorated_func
 @admin.route('/national-vaccine-stock', methods=['POST', 'GET'])
-
 @require_admin
 def national_vaccine_stock():
+    print("here")
     if request.method == 'POST':
         print("POST DATA:")
         data = request.form
@@ -38,7 +38,7 @@ def national_vaccine_stock():
             add_amount = int(data['add_vaccine_amount'])
         except:
             remove_amount = int(data['remove_vaccine_amount'])
-
+        print(f"{vaccine_name=}, {add_amount=}, {remove_amount=}")
         vaccine = Vaccine.query.filter_by(vaccine_name=vaccine_name).first()
         vaccine.vaccine_amount = vaccine.vaccine_amount + add_amount - remove_amount
         
@@ -50,6 +50,7 @@ def national_vaccine_stock():
     
     
     vaccines = Vaccine.query.all()
+    print(vaccines)
     return render_template("national-vaccine-stock.html", vaccines=vaccines)
 
 @admin.route('/add-new-vaccine', methods=['POST', 'GET'])
@@ -70,3 +71,20 @@ def add_new_vaccine():
     return render_template("add-new-vaccine.html")
 
 
+@admin.route('/permit-hospitals', methods=['POST', 'GET'])
+@require_admin
+def permit_hospitals():
+    if request.method == 'POST':
+        print("POST DATA:")
+        data = request.form
+        print("\n\n\n DATA: ", data)
+        hospital_id = data['hospital_name']
+        hospital = Hospital.query.filter_by(hospital_id=hospital_id).first()
+        print("HOSPITAL: ", hospital)
+        hospital.status = "Approved"
+        db.session.commit()
+        print("HOSPITAL PERMITTED")
+        return redirect(url_for('admin.permit_hospitals'))
+    hospitals = Hospital.query.filter_by(status="Requested").all()
+    print(hospitals)
+    return render_template("permit-hospitals.html", hospitals=hospitals)

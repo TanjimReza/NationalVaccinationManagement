@@ -1,0 +1,58 @@
+{% extends 'dashboard.html' %}
+{% block hospitalbody %}
+<section class="section">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title" align="center">Hospital Vaccine Stock</h5> 
+          <table class="table" id="example" class="display" style="width:100%">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Vaccine Name</th>
+                <th scope="col">Vials</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            {% for vaccine in hospital_stock %}
+              <tr>
+                <th scope="row">{{vaccine.stock_id}}</th>
+                <td>{{vaccine.vaccine_name}}</td>
+                <td>{{vaccine.vaccine_amount}}</td>
+                
+              </tr>
+            {% endfor %}  
+            
+            </tbody>
+          </table>
+          
+    </div>
+  </div>
+</div>
+</section>
+
+<style>
+.card {
+    align : center;
+    margin : 0 auto;
+    width : 100%;
+    max-width : 1000px;
+    padding : 20px;
+    border : 1px solid #eee;
+    border-radius : 5px;
+    box-shadow : 0 2px 3px #ccc;
+    }
+</style>
+
+<script>
+$(document).ready(function () {
+  $('#example').DataTable({
+      scrollY: '50vh',
+      scrollCollapse: true,
+  });
+});
+</script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+{% endblock hospitalbody %}

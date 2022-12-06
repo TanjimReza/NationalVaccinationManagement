@@ -7,7 +7,7 @@ import random
 from . import db
 from functools import wraps
 from .models import RegularUser, Hospital, Vaccine, UserVaccineInfo, VaccineRequest, NationalSystem,HospitalVaccineStock
-views = Blueprint('views', __name__)
+views = Blueprint('views', __name__, template_folder='templates/regular')
 
 
 

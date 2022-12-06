@@ -42,10 +42,17 @@ class Hospital(UserMixin, db.Model):
         return (self.email)
 
 class HospitalVaccineStock(db.Model):
-    vaccine_id = db.Column(db.Integer, primary_key=True)
+    stock_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     hospital_id = db.Column(db.Integer, db.ForeignKey('hospital.hospital_id'))
+    vaccine_id = db.Column(db.Integer, db.ForeignKey('vaccine.vaccine_serial'))
     vaccine_name = db.Column(db.String(100))
-    vaccine_quantity = db.Column(db.Integer)
+    vaccine_amount = db.Column(db.Integer)
+
+    
+    # vaccine_id = db.Column(db.Integer, primary_key=True)
+    # hospital_id = db.Column(db.Integer, db.ForeignKey('hospital.hospital_id'))
+    # vaccine_name = db.Column(db.String(100))
+    # vaccine_quantity = db.Column(db.Integer)
 
 
 
@@ -68,9 +75,11 @@ class UserVaccineInfo(db.Model):
 
 class VaccineRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    vaccine_id = db.Column(db.Integer, db.ForeignKey('vaccine.vaccine_serial'))
+    hospital_id = db.Column(db.Integer, db.ForeignKey('hospital.hospital_id'))
     vaccine_name = db.Column(db.String(100))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
-    status = db.Column(db.String(100), default='pending')
+    request_amount = db.Column(db.Integer)
+    request_status = db.Column(db.String(100), default='Pending')
 
 
     

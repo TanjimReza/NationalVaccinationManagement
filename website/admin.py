@@ -8,7 +8,7 @@ from . import db
 from functools import wraps
 from .models import RegularUser, Hospital, Vaccine, UserVaccineInfo, VaccineRequest, NationalSystem,HospitalVaccineStock
 
-admin = Blueprint('admin', __name__)
+admin = Blueprint('admin', __name__, template_folder='templates/admin')
 
 def require_admin(f):
     @wraps(f)
@@ -88,3 +88,34 @@ def permit_hospitals():
     hospitals = Hospital.query.filter_by(status="Requested").all()
     print(hospitals)
     return render_template("permit-hospitals.html", hospitals=hospitals)
+
+@admin.route('/hospital-requests', methods=['POST', 'GET'])
+@require_admin
+def hospital_requests():
+    if request.method == "POST":
+        data = request.form
+        print(data)
+        hospital_id = data['hospital_name']
+        vaccine_amount = data['vaccine_amount']
+        vaccine_serial = data['vaccine_name']
+        request_id = data['request_id']
+        hospital = Hospital.query.filter_by(hospital_id=hospital_id).first()
+        vaccine = Vaccine.query.filter_by(vaccine_serial=vaccine_serial).first()
+        
+        new_hospital_stock = HospitalVaccineStock(
+            hospital_id = hospital.hospital_id,
+            vaccine_id = vaccine.vaccine_serial,
+            vaccine_name = vaccine.vaccine_name,
+            vaccine_amount = vaccine_amount)
+        db.session.add(new_hospital_stock)
+        db.session.commit()
+        print("HOSPITAL STOCK ADDED")
+        
+        vaccine_request = VaccineRequest.query.filter_by(id=request_id).first()
+        vaccine_request.request_status = "Approved"
+        db.session.commit()
+        print("VACCINE REQUEST APPROVED")
+
+        
+    hospital_requests = VaccineRequest.query.all()
+    return render_template("hospital-requests.html", hospital_requests=hospital_requests)

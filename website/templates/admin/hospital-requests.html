@@ -1,0 +1,104 @@
+{% extends 'dashboard.html' %}
+
+{% block adminbody %}
+<section class="section">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title" align="center">Vaccine Requests</h5> 
+          <table class="table" id="example" class="display" style="width:100%">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Hospital Name</th>
+                <th scope="col">Vaccine Name</th>
+                <th scope="col">Request Amount</th>
+                <th scope="col">Status</th>
+                <th scope="col">Manage</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            {% for req in hospital_requests %}
+              <tr>
+                <th scope="row">{{req.id}}</th>
+                <td>{{req.hospital_id}}</td>
+                <td>{{req.vaccine_name}}</td>
+                <td>{{req.request_amount}}</td>
+                <td>{{req.request_status}}</td>
+                <td>
+                    <button type="button" class="btn btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#addModal" data-whatever="@mdo">Allocate</button>
+                    
+                    <div class="modal fade  bd-example-modal-lg" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="addModalLabel">Allocate Vaccine</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST">
+                                    <div class="form-group">
+                                        <label for="request_id" class="col-form-label" name="request_id">Request ID</label>
+                                        <input type="text" class="form-control" id="request_id" name="request_id" value="{{req.id}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hospital_name" class="col-form-label" name="hospital_name">Hospital Name</label>
+                                        <input type="text" class="form-control" id="hospital_name" name="hospital_name" value="{{req.hospital_id}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="vaccine_name" class="col-form-label" name="vaccine_name">Vaccine Name: {{req.vaccine_name}}</label>
+                                        <input type="text" class="form-control" id="vaccine_name" name="vaccine_name" value="{{req.vaccine_id}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="vaccine_amount" class="col-form-label" name="vaccine_amount">Amount:</label>
+                                      <input type="number" class="form-control" id="vaccine_amount" name="vaccine_amount">
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-outline-success" type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </form>
+                            </div>
+                          </div>    
+                        </div>    
+                    </div>                  
+                </td>
+              </tr>
+            {% endfor %}  
+            
+            </tbody>
+          </table>
+          
+    </div>
+  </div>
+</div>
+</section>
+
+<style>
+.card {
+    align : center;
+    margin : 0 auto;
+    width : 100%;
+    max-width : 1000px;
+    padding : 20px;
+    border : 1px solid #eee;
+    border-radius : 5px;
+    box-shadow : 0 2px 3px #ccc;
+    }
+</style>
+
+<script>
+$(document).ready(function () {
+  $('#example').DataTable({
+      scrollY: '50vh',
+      scrollCollapse: true,
+  });
+});
+</script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+{% endblock adminbody %}

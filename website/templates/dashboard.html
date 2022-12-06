@@ -27,7 +27,7 @@
     {% endif %}
     {% if current_user.user_type == 'hospital' %}
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
+            <a class="nav-link collapsed" href="{{url_for('hospitals.hospital_vaccine_stock')}}">
             <i class="bi bi-question-circle"></i>
             <span> Check Vaccine Stock
             </span>
@@ -54,6 +54,13 @@
             </span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{url_for('hospitals.request_vaccine')}}">
+            <i class="bi bi-question-circle"></i>
+            <span> Request Vaccine
+            </span>
+            </a>
+        </li>
     {% endif %}
     {% if current_user.user_type == 'admin' %}
         <li class="nav-item">
@@ -64,7 +71,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
+            <a class="nav-link collapsed" href="{{url_for('admin.hospital_requests')}}">
             <i class="bi bi-question-circle"></i>
             <span> Hospital Requests
             </span>

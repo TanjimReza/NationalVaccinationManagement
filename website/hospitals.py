@@ -65,7 +65,6 @@ def request_vaccine():
         print(data)
         vaccine_name = data['vaccine_name']
         vaccine_amount = data['vaccine_amount']
-        request_id = data['request_id']
         hospital_id = current_user.hospital_id
         hospital = Hospital.query.filter_by(hospital_id=hospital_id).first()
         vaccine = Vaccine.query.filter_by(vaccine_name=vaccine_name).first()

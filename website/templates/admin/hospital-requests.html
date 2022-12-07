@@ -26,9 +26,9 @@
                 <td>{{req.request_amount}}</td>
                 <td>{{req.request_status}}</td>
                 <td>
-                    <button type="button" class="btn btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#addModal" data-whatever="@mdo">Allocate</button>
+                    <button type="button" class="btn btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#addModal{{req.id}}" data-whatever="@mdo">Allocate</button>
                     
-                    <div class="modal fade  bd-example-modal-lg" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+                    <div class="modal fade  bd-example-modal-lg" id="addModal{{req.id}}" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                           <div class="modal-content">
                             <div class="modal-header">

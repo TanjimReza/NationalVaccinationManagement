@@ -7,6 +7,9 @@ import random
 from . import db
 from functools import wraps
 from .models import RegularUser, Hospital, Vaccine, UserVaccineInfo, VaccineRequest, NationalSystem,HospitalVaccineStock
+from flask_mail import Mail, Message
+from . import Mail
+mail = Mail()
 views = Blueprint('views', __name__, template_folder='templates/regular')
 
 
@@ -97,7 +100,6 @@ def vaccineregistration():
 
 @views.route('/download-vaccine-card', methods=['POST', 'GET'])
 def download_vaccine_card():
-    
     nid = current_user.nid
     user_vaccine_info = UserVaccineInfo.query.filter_by(user_id=nid).first()
     name = user_vaccine_info.user_name
@@ -114,3 +116,22 @@ def download_vaccine_card():
                 'date': date}
 
     return render_template("download-vaccine-card.html", context=context)
+
+@views.route('/make-payment', methods=['POST', 'GET'])
+def make_payment():
+    if request.method == 'POST':
+        data = request.form 
+        amount = data['payamt']
+        current_user.balance = current_user.balance + int(amount)
+        db.session.commit()
+        print("PAYMENT SUCCESSFUL")
+        print("SENDING EMAIL")
+        try:
+            msg = Message('Payment Successful', sender = 'nvms@kharapstudent.xyz', recipients = [current_user.email])
+            msg.body = f"Dear {current_user.first_name},\n\nYour payment of {amount} has been successfully received. Current balance: {current_user.balance} \n\nThank you for using our service.\n\nRegards,\nNational Vaccine Management System"
+            mail.send(msg)
+            print("EMAIL SENT")
+        except:
+            print("EMAIL NOT SENT")
+        return redirect(url_for('views.make_payment'))
+    return render_template("make-payment.html")

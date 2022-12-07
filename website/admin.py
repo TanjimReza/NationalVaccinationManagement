@@ -23,6 +23,8 @@ def require_admin(f):
         else:
             return redirect("/")
     return decorated_func
+
+
 @admin.route('/national-vaccine-stock', methods=['POST', 'GET'])
 @require_admin
 def national_vaccine_stock():
@@ -102,14 +104,31 @@ def hospital_requests():
         hospital = Hospital.query.filter_by(hospital_id=hospital_id).first()
         vaccine = Vaccine.query.filter_by(vaccine_serial=vaccine_serial).first()
         
-        new_hospital_stock = HospitalVaccineStock(
-            hospital_id = hospital.hospital_id,
-            vaccine_id = vaccine.vaccine_serial,
-            vaccine_name = vaccine.vaccine_name,
-            vaccine_amount = vaccine_amount)
-        db.session.add(new_hospital_stock)
-        db.session.commit()
-        print("HOSPITAL STOCK ADDED")
+        hospital_vaccine_stock = HospitalVaccineStock.query.filter_by(hospital_id=hospital_id, vaccine_id=vaccine_serial).first()
+        if hospital_vaccine_stock:
+            hospital_vaccine_stock.vaccine_amount = hospital_vaccine_stock.vaccine_amount + int(vaccine_amount)
+            db.session.commit()
+            print("HOSPITAL STOCK UPDATED")
+        
+        else:
+            new_hospital_stock = HospitalVaccineStock(
+                hospital_id = hospital.hospital_id,
+                vaccine_id = vaccine.vaccine_serial,
+                vaccine_name = vaccine.vaccine_name,
+                vaccine_amount = vaccine_amount)
+            db.session.add(new_hospital_stock)
+            db.session.commit()
+            print("HOSPITAL STOCK ADDED")
+            
+        #! Bug-Fix: Multiple Entries of same vaccine in HospitalVaccineStock
+        # new_hospital_stock = HospitalVaccineStock(
+        #     hospital_id = hospital.hospital_id,
+        #     vaccine_id = vaccine.vaccine_serial,
+        #     vaccine_name = vaccine.vaccine_name,
+        #     vaccine_amount = vaccine_amount)
+        # db.session.add(new_hospital_stock)
+        # db.session.commit()
+        # print("HOSPITAL STOCK ADDED")
         
         vaccine_request = VaccineRequest.query.filter_by(id=request_id).first()
         vaccine_request.request_status = "Approved"

@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_mail import Mail, Message
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -20,13 +21,24 @@ def create_app():
 #     app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://tanjimflask:tanjimflask@localhost/dsefifa"
     #app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://tanjimre_primeparkuser:cff70978c4053@cpanel.tanjimreza.me:3306/tanjimre_dsefifa"
     # app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://tanjimre_primeparkuser:cff70978c4053@server-arizona-vps.quattic.com:3306/tanjimre_dsefifa"
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://root@localhost/nvms"
+    # app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://root@localhost/nvms"
     # app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://tanjimre_primeparkuser:cff70978c4053@bdix.thedhaka.host:3306/nvms"
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://fahadalm_nvms:dkh324As32@bdix.thedhaka.host:3306/fahadalm_nvms"
 
 
     db.init_app(app)
     migrate = Migrate(app, db)
     migrate.init_app(app, db)
+    
+    mail= Mail(app)
+    app.config['MAIL_SERVER']='mail.kharapstudent.xyz'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = 'nvms@kharapstudent.xyz'
+    app.config['MAIL_PASSWORD'] = 'dp8cZX]z%7*f'
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
+    mail = Mail(app)
+
     from .views import views
     from .auth import auth
     from .hospitals import hospitals
@@ -71,4 +83,5 @@ def create_app():
             user = RegularUser.query.filter_by(email=email).first()
             # print(f"Loaded: {user}")
             return user        
+    
     return app

@@ -1,0 +1,91 @@
+{% extends 'dashboard.html' %}
+{% block mainbody %}
+<section class="section">
+    <div class="row">
+        
+        <div class="col-lg-6">
+            <div class="card rounded-3">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <h3>Payment</h3>
+                        <img class="img-fluid"
+                                src="https://www.logo.wine/a/logo/BKash/BKash-Icon2-Logo.wine.svg" style="width:120px;height:120px;" />
+                        <img class="img-fluid"
+                                src="https://www.logo.wine/a/logo/Nagad/Nagad-Vertical-Logo.wine.svg" style="width:120px;height:120px;" />
+                    </div>
+                    <form action="" method="POST">
+                        <p class="fw-bold mb-4 pb-2">Mobile Number</p>
+        
+                        <div class="d-flex flex-row align-items-center mb-4 pb-1">
+                            
+                            <div class="flex-fill mx-3">
+                                <div class="form-outline" style="margin-top: 30px; padding:8px;">
+                                    <input type="text" id="formControlLgXc"
+                                        class="form-control form-control-lg" value="{{current_user.mobile}}" />
+                                    <label class="form-label" for="formControlLgXc">Mobile Number</label>
+                                </div>
+                                <div name="payamt" class="form-outline" style="margin-top: 30px; padding: 6px;">
+                                    <input name="payamt" type="text" id="formControlLgXc"
+                                        class="form-control form-control-lg" value="100"/>
+                                    <label class="form-label" for="formControlLgXc">Amount (BDT) </label>
+                                </div>
+                                <div  class="form-outline" style="margin-top: 30px; padding: 6px;">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Select Type & Category</option>
+                                        <option value="1">bKash - Govt.</option>
+                                        <option value="2">Nagad - Regular</option>
+                                      </select>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col text-center">
+                                <button type="submit" class="btn btn-success btn-lg">Pay Now</button>
+                            </div>
+                          </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .card {
+        align: center;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 1000px;
+        padding: 20px;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        box-shadow: 0 2px 3px #ccc;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            scrollY: '50vh',
+            scrollCollapse: true,
+        });
+    });
+</script>
+
+<script>
+    function generate_pdf() {
+        var element = document.getElementById('pdfthis');
+        html2pdf().from(element).save();
+    }
+</script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://tanjimreza.me/cdn/assets/css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+    integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock mainbody %}

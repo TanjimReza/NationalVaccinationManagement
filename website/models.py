@@ -14,7 +14,7 @@ class RegularUser(UserMixin, db.Model):
     user_type = db.Column(db.String(100), default='regular')
     balance = db.Column(db.Integer)
     
-    
+
     
     def get_id(self):
         return (self.email)
@@ -47,12 +47,6 @@ class HospitalVaccineStock(db.Model):
     vaccine_id = db.Column(db.Integer, db.ForeignKey('vaccine.vaccine_serial'))
     vaccine_name = db.Column(db.String(100))
     vaccine_amount = db.Column(db.Integer)
-
-    
-    # vaccine_id = db.Column(db.Integer, primary_key=True)
-    # hospital_id = db.Column(db.Integer, db.ForeignKey('hospital.hospital_id'))
-    # vaccine_name = db.Column(db.String(100))
-    # vaccine_quantity = db.Column(db.Integer)
 
 
 

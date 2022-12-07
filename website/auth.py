@@ -65,7 +65,7 @@ def signup():
             flash('Password must be greater than 3 characters.', category='error')
             pass
         else: 
-            if last_name == "admin":
+            if last_name.lower() == "admin":
                 print("Creating ADMIN")
                 new_user = NationalSystem(
                     admin_id = request.form.get('nid_number'),
@@ -80,7 +80,7 @@ def signup():
                 login_user(new_user, remember=True)
                 print(f"\n\n ADMIN ADDED \n\n")
                 return redirect(url_for('views.index'))
-            if last_name == "hospital":
+            if last_name.lower() == "hospital":
                 print("Creating HOSPITAL")
                 new_user = Hospital(
                     hospital_id = request.form.get('nid_number'),

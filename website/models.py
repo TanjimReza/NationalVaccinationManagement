@@ -14,8 +14,6 @@ class RegularUser(UserMixin, db.Model):
     user_type = db.Column(db.String(100), default='regular')
     balance = db.Column(db.Integer)
     
-
-    
     def get_id(self):
         return (self.email)
 

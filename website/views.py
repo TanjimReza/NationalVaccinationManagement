@@ -29,7 +29,13 @@ def hospital_required(func):
 @views.route('/')
 # @login_required
 def index():
-    return render_template('index.html')
+    hospitals = Hospital.query.all()
+    vaccines = Vaccine.query.all()
+    context = {
+        'hospitals': hospitals,
+        'vaccines': vaccines
+    }
+    return render_template('index.html', context=context)
     # return redirect(url_for('views.submit'))
 
 @views.route('/dashboard')
